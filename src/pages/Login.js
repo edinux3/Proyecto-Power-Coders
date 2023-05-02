@@ -1,20 +1,35 @@
 import useServer from '../hooks/useServer.js'
 import { Link, useNavigate} from "react-router-dom"
 import Layout from "../components/Layout"
+import { useEffect } from 'react'
+import useAuth from '../hooks/useAuth.js'
   
 function Login() {
-    const { post } = useServer()
+    const { token } = useAuth()
+    const { post, get } = useServer()
     const navigate = useNavigate()
 
     const handleSubmit = async e => {
-    e.preventDefault()
+        e.preventDefault()
 
-    const credentials = Object.fromEntries(new FormData(e.target))
-    
-    const { data } = await post({ url: '/login', body: credentials })
-    console.log(data.data)
-    if (data.data) return navigate('/dashboard')
-     }
+        const credentials = Object.fromEntries(new FormData(e.target))
+        await post({ url: '/login', body: credentials })
+
+        /*
+        // Para enviar un formulario con una imagen
+        const credentials = new FormData(e.target)
+        await post({ url: '/login', body: credentials, hasImage: true })
+        
+        */
+    }
+
+    useEffect(() => {
+        if (!token) return
+
+        const user = get({ url: '/profile' })
+        if (user) return navigate('/dashboard')
+
+    }, [token])
 
     return (
         <Layout>

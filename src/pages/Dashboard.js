@@ -1,17 +1,29 @@
-import React,{ useEffect, useState } from 'react'
-import { Link, useNavigate } from "react-router-dom"
-import Layout from "../components/Layout"
-import useServer from '../hooks/useServer.js'
-import { apiURL } from '../config'
-  
-function Dashboard() {  
-// no funciona
-    // const { get } = useServer()
-    // const navigate = useNavigate()
+import React, { useEffect, useState } from 'react'
+import { Link } from "react-router-dom"
 
-    //const { data } =  get({ url: 'apiURL', token: ' ' })
-    // console.log(data)
-    // if (!data.status) return navigate('/')
+import Layout from "../components/Layout"
+import useAuth from '../hooks/useAuth'
+import useServer from '../hooks/useServer'
+  
+function Dashboard() {
+    const { isAuthenticated, logout } = useAuth()
+    const { get } = useServer()
+    const [news, setNews] = useState([])
+
+    const getNews = async () => {
+        const { data } = await get({ url: '/news' })
+        setNews(data.data)
+    }
+
+    useEffect(() => {
+        getNews()
+    // eslint-disable-next-line
+    }, [])
+
+    useEffect(() => {
+        console.log(news)
+    }, [news])
+
 
     return (
         <Layout>
@@ -19,11 +31,13 @@ function Dashboard() {
                 <div className="col-12">
                     <nav className="navbar navbar-expand-lg navbar-light bg-light">
                         <div className="container-fluid">
-                            <a className="navbar-brand" href="#"><h3>News Reddit</h3></a>
+                            <h3>News Reddit</h3>
                             <div className="d-flex">
                                 <ul className="navbar-nav">
                                     <li className="nav-item">
-                                    <p className="text-center"><Link to="/">Cerrar Sesión</Link></p>
+                                    <p className="text-center">
+                                        {isAuthenticated && <Link to="/" onClick={logout}>Cerrar Sesión</Link>}
+                                        </p>
                                     </li>
                                 </ul>
                             </div>
@@ -33,10 +47,12 @@ function Dashboard() {
                 </div>
             </div>
             <div>
-
+                {news && <ul>
+                    {news.map(noticia => <li>{noticia.title}</li>)}
+                </ul>}
             </div>
         </Layout>
-    );
+    )
 }
    
 export default Dashboard;
