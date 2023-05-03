@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+
 import Layout from '../components/Layout';
 import useAuth from '../hooks/useAuth';
 import useServer from '../hooks/useServer';
 import { apiURL } from "../config"
 import "./dashboard.css"
+import logo from '../assets/images/logo192.png'
 
 function Dashboard() {
   const { isAuthenticated, logout } = useAuth();
@@ -28,7 +30,7 @@ function Dashboard() {
         <div className="col-12">
         <nav className="navbar navbar-expand-lg navbar-light bg-light">
           <div className="container-fluid">
-            <img src="../public/logo192.png" alt="News Reddit" className="navbar-logo" />
+            <img src={logo} alt="News Reddit" className="navbar-logo" />
               <h3>News Reddit</h3>
                 <div className="d-flex">
                   <ul className="navbar-nav">
@@ -45,7 +47,7 @@ function Dashboard() {
                 </li>
                 <li className="nav-item">
                 <p className="text-center">
-            <Link to="/register">Registrarse</Link>
+            {!isAuthenticated && <Link to="/register">Registrarse</Link>}
           </p>
         </li>
       </ul>

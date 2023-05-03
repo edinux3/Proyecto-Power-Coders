@@ -1,11 +1,9 @@
 import useServer from '../hooks/useServer.js';
-import useAuth from '../hooks/useAuth.js';
 import Layout from '../components/Layout';
 import { Link, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 
 function Register() {
-  const { token } = useAuth();
   const { post } = useServer();
   const navigate = useNavigate();
   const [validationErrors, setValidationErrors] = useState({});
@@ -14,11 +12,14 @@ function Register() {
     e.preventDefault();
 
     const formData = Object.fromEntries(new FormData(e.target));
-    const response = await post({ url: '/register', body: formData });
+    const { data } = await post({ url: '/register', body: formData });
 
-    if (response.errors) {
-      setValidationErrors(response.errors);
-    } else {
+    console.log(data)
+
+    if (data.status === 'error') {
+      setValidationErrors(data.message);
+    }
+    if (data.status === 'ok') {
       navigate('/login');
     }
   };
@@ -41,7 +42,7 @@ function Register() {
                   <label htmlFor="name" className="form-label">
                     Nombre
                   </label>
-                  <input type="text" placeholder="Nombre Usuario" className="form-control" id="name" name="name" />
+                  <input type="text" placeholder="Nombre Usuario" className="form-control" id="name" name="username" />
                   {validationErrors.name && (
                     <small className="text-danger">{validationErrors.name}</small>
                   )}
@@ -86,7 +87,6 @@ function Register() {
                     placeholder="******"
                     className="form-control"
                     id="confirmPassword"
-                    name="confirmPassword"
                   />
                   {validationErrors.confirmPassword && (
                     <small className="text-danger">{validationErrors.confirmPassword}</small>
