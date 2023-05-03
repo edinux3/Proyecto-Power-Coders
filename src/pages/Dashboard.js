@@ -26,24 +26,33 @@ function Dashboard() {
     <Layout>
       <div className="row justify-content-md-center">
         <div className="col-12">
-          <nav className="navbar navbar-expand-lg navbar-light bg-light">
-            <div className="container-fluid">
+        <nav className="navbar navbar-expand-lg navbar-light bg-light">
+          <div className="container-fluid">
+            <img src="../public/logo192.png" alt="News Reddit" className="navbar-logo" />
               <h3>News Reddit</h3>
-              <div className="d-flex">
-                <ul className="navbar-nav">
-                  <li className="nav-item">
+                <div className="d-flex">
+                  <ul className="navbar-nav">
+                   <li className="nav-item">
                     <p className="text-center">
-                      {isAuthenticated && (
-                        <Link to="/" onClick={logout}>
-                          Cerrar Sesión
-                        </Link>
-                      )}
-                    </p>
-                  </li>
-                </ul>
-              </div>
-            </div>
-          </nav>
+                    {isAuthenticated ? (
+                    <Link to="/" onClick={logout}>
+                    Cerrar Sesión
+                    </Link>
+                      ) : (
+                   <Link to="/login">Iniciar Sesión</Link>
+                  )}
+                </p>
+                </li>
+                <li className="nav-item">
+                <p className="text-center">
+            <Link to="/register">Registrarse</Link>
+          </p>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
           <h2 className="text-center mt-5">
             Hola..!! en que estas pensado ahora....!!! 😁{' '}
           </h2>
