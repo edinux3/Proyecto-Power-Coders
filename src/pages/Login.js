@@ -38,11 +38,7 @@ function Login() {
                     <div className="card">
                         <div className="card-body">
                             <h5 className="card-title mb-4">Inicio de Sesión</h5>
-                            <form onSubmit={handleSubmit}>
-                                {/* {Object.keys(validationErrors).length != 0 &&
-                                     <p className='text-center '><small className='text-danger'>Incorrect Email or Password</small></p>
-                                } */}
-                                
+                            <form onSubmit={handleSubmit}>                            
                                 <div className="mb-3">
                                     <label 
                                         htmlFor="email"
@@ -55,8 +51,6 @@ function Login() {
                                         className="form-control"
                                         id="email"
                                         name="email"
-                                        //value={email}
-                                        //onChange={(e)=>{setEmail(e.target.value)}}
                                     />
                                 </div>
                                 <div className="mb-3">
@@ -70,13 +64,10 @@ function Login() {
                                         className="form-control"
                                         id="password"
                                         name="password"
-                                        //value={password}
-                                        //onChange={(e)=>{setPassword(e.target.value)}}
                                     />
                                 </div>
                                 <div className="d-grid gap-2">
                                     <button 
-                                        //disabled={isSubmitting}
                                         type="submit"
                                         className="btn btn-primary btn-block">Iniciar Sesión</button>
                                     <p className="text-center">¿No tienes cuenta? <Link to="/register">Registrate aquí</Link></p>
