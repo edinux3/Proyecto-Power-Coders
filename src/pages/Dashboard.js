@@ -7,6 +7,9 @@ import useServer from '../hooks/useServer';
 import { apiURL } from '../config';
 import './dashboard.css';
 import logo from '../assets/images/logo192.png';
+import PostNewsForm from './PostNewsForm';
+
+
 
 function Dashboard() {
   const { isAuthenticated, user, logout } = useAuth();
@@ -64,7 +67,15 @@ function Dashboard() {
               </div>
             </div>
           </nav>
+          <div className="row justify-content-md-center">
+        <div className="col-12">
+          <nav className="navbar navbar-expand-lg navbar-light bg-light">
+            {/* ... */}
+          </nav>
           <h2>Hola {isAuthenticated ? (<b>{user?.username}</b>):(<b>...</b>)}!! en que estas pensando ahora....!!!{' '}</h2>
+          {isAuthenticated && <PostNewsForm />}
+        </div>
+      </div>
         </div>
       </div>
                       {news && (
@@ -83,7 +94,7 @@ function Dashboard() {
                     <p className={`news-content ${noticia.expanded ? 'news-content-expanded' : ''}`}>
                       {noticia.content}
                     </p>
-                    {noticia.content.length > 100 && (
+                    {noticia.content.length > 50 && (
                       <div className="news-more">
                         <button onClick={() => setNews((prevNews) => prevNews.map((n) => {
                           if (n.id === noticia.id) {
