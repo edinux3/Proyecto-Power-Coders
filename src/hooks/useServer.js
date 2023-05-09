@@ -5,7 +5,6 @@ import useAuth from './useAuth.js'
 function useServer() {
   const { token, setUser } = useAuth()
 
-
   const handleResponse = ({ data, loading, error }) => {
     console.log(data)
 

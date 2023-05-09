@@ -4,10 +4,10 @@ import { Link } from 'react-router-dom';
 import Layout from '../components/Layout';
 import useAuth from '../hooks/useAuth';
 import useServer from '../hooks/useServer';
-import { apiURL } from '../config';
 import './dashboard.css';
 import logo from '../assets/images/logo192.png';
 import PostNewsForm from './PostNewsForm';
+import News from '../components/News';
 
 
 
@@ -23,17 +23,26 @@ function Dashboard() {
   };
 
   const handleLike = async (noticiaId) => {
-    const { data } = await post({ url: `/news/${noticiaId}/like` });
-    console.log(data);
+    const { data } = await post({ url: `/news/like/${noticiaId}` });
+    if (data.status !== 'ok') return
+
+    const newsIndex = news.findIndex(n => n.id === noticiaId)
+    news[newsIndex] = data.data
+    setNews([...news])
   };
 
   const handleDislike = async (noticiaId) => {
-    const { data } = await post({ url: `/news/${noticiaId}/dislike` });
+    const { data } = await post({ url: `/news/dislike/${noticiaId}` });
     console.log(data);
   };
 
+  const createPostHandler = ({ post }) => {
+    setNews([post, ...news])
+  }
+
   useEffect(() => {
     getNews();
+    console.log(user)
   }, []);
 
   return (
@@ -73,52 +82,19 @@ function Dashboard() {
             {/* ... */}
           </nav>
           <h2>Hola {isAuthenticated ? (<b>{user?.username}</b>):(<b>...</b>)}!! en que estas pensando ahora....!!!{' '}</h2>
-          {isAuthenticated && <PostNewsForm />}
+          {isAuthenticated && <PostNewsForm createPostHandler={createPostHandler} />}
         </div>
       </div>
         </div>
       </div>
-                      {news && (
-                        <div>
-                          <div className="news-container">
-                          {news.map((noticia) => (
-                  <div key={noticia.id} className="news-item">
-                    {noticia.photo && (
-                      <img
-                        src={`${apiURL}/photos/${noticia.photo}`}
-                        alt={noticia.title}
-                        className="news-image"
-                      />
-                    )}
-                    <h3 className="news-title">{noticia.title}</h3>
-                    <p className={`news-content ${noticia.expanded ? 'news-content-expanded' : ''}`}>
-                      {noticia.content}
-                    </p>
-                    {noticia.content.length > 50 && (
-                      <div className="news-more">
-                        <button onClick={() => setNews((prevNews) => prevNews.map((n) => {
-                          if (n.id === noticia.id) {
-                            return {
-                              ...n,
-                              expanded: !n.expanded // cambia la propiedad "expanded" del objeto de la noticia
-                            };
-                          }
-                          return n;
-                        }))}>
-                          {noticia.expanded ? 'Leer menos' : 'Leer más'}
-                        </button>
-                      </div>
-                    )}
-                    {isAuthenticated && (
-                      <div>
-                        <button onClick={() => handleLike(noticia.id)}>Me gusta</button>
-                        <button onClick={() => handleDislike(noticia.id)}>No me gusta</button>
-                      </div>
-                    )}
-                  </div>
-                ))}
-          </div>
-        </div>
+      {news && (
+      <div>
+      <div className="news-container">
+      {news.map((noticia) => (
+          <News key={noticia.id} noticia={noticia} handleLike={handleLike} handleDislike={handleDislike} />
+      ))}
+      </div>
+      </div>
       )}
     </Layout>
   );
