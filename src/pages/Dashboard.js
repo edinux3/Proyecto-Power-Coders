@@ -13,7 +13,7 @@ import News from '../components/News';
 
 function Dashboard() {
   const { isAuthenticated, user, logout } = useAuth();
-  const { get, post } = useServer();
+  const { get, post, delete: destroy } = useServer();
   const [news, setNews] = useState([]);
 
   const getNews = async () => {
@@ -40,6 +40,11 @@ function Dashboard() {
     setNews([post, ...news])
   }
 
+  const handleDelete = async ({id}) => {
+    const { data } = await destroy({url: ``})
+    console.log(id)
+  }
+
   useEffect(() => {
     getNews();
     console.log(user)
@@ -62,7 +67,6 @@ function Dashboard() {
                           <Link to="/" onClick={logout}>
                             Cerrar Sesión
                           </Link>
-                          <div></div>
                         </>
                       ) : (
                         <Link to="/login">Iniciar Sesión</Link>
@@ -91,7 +95,7 @@ function Dashboard() {
       <div>
       <div className="news-container">
       {news.map((noticia) => (
-          <News key={noticia.id} noticia={noticia} handleLike={handleLike} handleDislike={handleDislike} />
+          <News key={noticia.id} noticia={noticia} handleLike={handleLike} handleDislike={handleDislike} handleDelete={handleDelete} />
       ))}
       </div>
       </div>
