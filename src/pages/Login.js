@@ -14,13 +14,6 @@ function Login() {
 
         const credentials = Object.fromEntries(new FormData(e.target))
         await post({ url: '/login', body: credentials })
-
-        /*
-        // Para enviar un formulario con una imagen
-        const credentials = new FormData(e.target)
-        await post({ url: '/login', body: credentials, hasImage: true })
-        
-        */
     }
 
     useEffect(() => {

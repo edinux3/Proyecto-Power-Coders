@@ -1,13 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 
+import { useNavigate } from "react-router-dom";
+
 import Layout from '../components/Layout';
 import useAuth from '../hooks/useAuth';
 import useServer from '../hooks/useServer';
 import './dashboard.css';
 import logo from '../assets/images/logo192.png';
-import PostNewsForm from './PostNewsForm';
+import CreatePostButton from './CreatePostButton';
 import News from '../components/News';
+import PostNewsForm from './PostNewsForm';
 
 
 
@@ -15,6 +18,7 @@ function Dashboard() {
   const { isAuthenticated, user, logout } = useAuth();
   const { get, post, delete: destroy } = useServer();
   const [news, setNews] = useState([]);
+  const navigate = useNavigate()
 
   const getNews = async () => {
     const { data } = await get({ url: '/news' });
@@ -33,21 +37,20 @@ function Dashboard() {
 
   const handleDislike = async (noticiaId) => {
     const { data } = await post({ url: `/news/dislike/${noticiaId}` });
-    console.log(data);
+  
   };
 
   const createPostHandler = ({ post }) => {
-    setNews([post, ...news])
+    setNews([post, ...news]) 
   }
 
   const handleDelete = async ({id}) => {
-    const { data } = await destroy({url: ``})
-    console.log(id)
+    const { data } = await destroy({url: `/news/${id}`})
+  
   }
 
   useEffect(() => {
     getNews();
-    console.log(user)
   }, []);
 
   return (
@@ -92,10 +95,16 @@ function Dashboard() {
         </div>
       </div>
       {news && (
+
       <div>
-      <div className="news-container">
-      {news.map((noticia) => (
-          <News key={noticia.id} noticia={noticia} handleLike={handleLike} handleDislike={handleDislike} handleDelete={handleDelete} />
+          <div className="news-container">
+        {news.map((noticia) => (
+          <News key={noticia.id} 
+                noticia={noticia}
+                handleLike={handleLike}
+                handleDislike={handleDislike}
+                handleDelete={handleDelete}
+           />
       ))}
       </div>
       </div>
