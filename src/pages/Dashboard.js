@@ -13,12 +13,13 @@ import News from '../components/News';
 import PostNewsForm from './PostNewsForm';
 
 
-
 function Dashboard() {
   const { isAuthenticated, user, logout } = useAuth();
   const { get, post, delete: destroy } = useServer();
   const [news, setNews] = useState([]);
   const navigate = useNavigate()
+  const [filter, setFilter] = useState('all');
+
 
   const getNews = async () => {
     const { data } = await get({ url: '/news' });
@@ -26,7 +27,7 @@ function Dashboard() {
     setNews(sortedNews);
   };
 
-  const handleLike = async (noticiaId) => {
+    const handleLike = async (noticiaId) => {
     const { data } = await post({ url: `/news/like/${noticiaId}` });
     if (data.status !== 'ok') return
 
@@ -52,6 +53,8 @@ function Dashboard() {
   useEffect(() => {
     getNews();
   }, []);
+
+  const filteredNews = filter === 'all' ? news : news.filter(noticia => noticia.category === filter);
 
   return (
     <Layout>
@@ -83,6 +86,23 @@ function Dashboard() {
               </div>
             </div>
           </nav>
+          <div className="row justify-content-center">
+        <div className="col-12">
+          <div className="filter-buttons">
+            <button className={`filter-button ${filter === 'all' ? 'active' : ''}`} onClick={() => setFilter('all')}>Todas</button>
+            <button className={`filter-button ${filter === 'Sports' ? 'active' : ''}`} onClick={() => setFilter('Sports')}>Deportes</button>
+            <button className={`filter-button ${filter === 'Politics' ? 'active' : ''}`} onClick={() => setFilter('Politics')}>Política</button>
+            <button className={`filter-button ${filter === 'Economy' ? 'active' : ''}`} onClick={() => setFilter('Economy')}>Economia</button>
+            <button className={`filter-button ${filter === 'Education' ? 'active' : ''}`} onClick={() => setFilter('Education')}>Educacion</button>
+            <button className={`filter-button ${filter === 'Technology' ? 'active' : ''}`} onClick={() => setFilter('Technology')}>Tecnologia</button>
+            <button className={`filter-button ${filter === 'Culture' ? 'active' : ''}`} onClick={() => setFilter('Culture')}>Cultura</button>
+            <button className={`filter-button ${filter === 'Science' ? 'active' : ''}`} onClick={() => setFilter('Science')}>Ciencia</button>
+            <button className={`filter-button ${filter === 'Gaming' ? 'active' : ''}`} onClick={() => setFilter('Gaming')}>Juegos</button>
+            <button className={`filter-button ${filter === 'Medicine' ? 'active' : ''}`} onClick={() => setFilter('Medicine')}>Medicina</button> 
+            <button className={`filter-button ${filter === 'Society' ? 'active' : ''}`} onClick={() => setFilter('Society')}>Sociedad</button> 
+          </div>
+        </div>
+      </div>
           <div className="row justify-content-md-center">
         <div className="col-12">
           <nav className="navbar navbar-expand-lg navbar-light bg-light">
@@ -94,23 +114,22 @@ function Dashboard() {
       </div>
         </div>
       </div>
-      {news && (
-
       <div>
           <div className="news-container">
-        {news.map((noticia) => (
-          <News key={noticia.id} 
-                noticia={noticia}
-                handleLike={handleLike}
-                handleDislike={handleDislike}
-                handleDelete={handleDelete}
-           />
-      ))}
-      </div>
-      </div>
-      )}
+          {filteredNews.map((noticia) => (
+          <News
+             key={noticia.id}
+             noticia={noticia}
+             handleLike={handleLike}
+             handleDislike={handleDislike}
+             handleDelete={handleDelete}
+          />
+          ))}
+        </div>
+        </div>
+
     </Layout>
-  );
+  )
 }
 
 export default Dashboard;

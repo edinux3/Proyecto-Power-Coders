@@ -70,3 +70,52 @@ button {
 button:hover {
   background-color: #f9f9f9;
 }
+
+.filter-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.filter-button {
+  display: inline-block;
+  padding: 8px 16px;
+  margin: 5px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #fff;
+  background-color: #333;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.filter-button:hover {
+  background-color: orange;
+}
+
+.filter-button.active {
+  background-color: #007bff;
+}
+
+.filter-button:active {
+  background-color: #0056b3;
+}
+
+.filter-button:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.3);
+}
+
+@media screen and (max-width: 600px) {
+  .filter-buttons {
+    justify-content: flex-start;
+  }
+
+  .filter-button {
+    flex-grow: 1;
+    margin: 5px 2.5px;
+  }
+}
