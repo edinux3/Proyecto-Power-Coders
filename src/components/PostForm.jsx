@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { filterButtons } from '../config';
 
 function PostForm({ post = {}, handleFormSubmit }) {
   const [title, setTitle] = useState(post.title);
@@ -37,17 +38,7 @@ function PostForm({ post = {}, handleFormSubmit }) {
     <div>
       <label htmlFor="theme">Tema:</label>
       <select name="theme" id="theme" value={theme} onChange={handleThemeChange}>
-        <option value="">Todos los temas</option>
-        <option value="sports">Deportes</option>
-        <option value="politics">Política</option>
-        <option value="economy">Economía</option>
-        <option value="education">Educación</option>
-        <option value="society">Sociedad</option>
-        <option value="technology">Tecnología</option>
-        <option value="culture">Cultura</option>
-        <option value="science">Ciencia</option>
-        <option value="gaming">Videojuegos</option>
-        <option value="medicine">Medicina</option>
+        {filterButtons.map(({id, name, text}) => name === 'all' ? <option key={id} value="">{text}</option> : <option key={id} value={name}>{text}</option> )}
       </select>
     </div>
     <button type="submit">Enviar</button>

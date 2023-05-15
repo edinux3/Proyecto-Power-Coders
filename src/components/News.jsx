@@ -7,6 +7,7 @@ function News({noticia, handleLike, handleDislike, handleDelete}) {
     const { isAuthenticated, user } = useAuth()
 
     return <div key={noticia.id} className="news-item">
+        <p>{noticia.theme}</p>
         {noticia.photo && (
             <img
                 src={`${apiURL}/photos/${noticia.photo}`}

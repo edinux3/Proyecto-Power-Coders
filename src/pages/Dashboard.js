@@ -1,25 +1,24 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-
-import { useNavigate } from "react-router-dom";
+import { toast } from 'sonner'
 
 import Layout from '../components/Layout';
 import useAuth from '../hooks/useAuth';
 import useServer from '../hooks/useServer';
-import './dashboard.css';
 import logo from '../assets/images/logo192.png';
-import CreatePostButton from './CreatePostButton';
 import News from '../components/News';
 import PostNewsForm from './PostNewsForm';
+import FilterButton from '../components/FilterButton';
+import { filterButtons } from '../config';
 
+import './dashboard.css';
 
 function Dashboard() {
   const { isAuthenticated, user, logout } = useAuth();
   const { get, post, delete: destroy } = useServer();
   const [news, setNews] = useState([]);
-  const navigate = useNavigate()
   const [filter, setFilter] = useState('all');
-
+  const [filteredNews, setFilteredNews] = useState([]);
 
   const getNews = async () => {
     const { data } = await get({ url: '/news' });
@@ -29,16 +28,24 @@ function Dashboard() {
 
     const handleLike = async (noticiaId) => {
     const { data } = await post({ url: `/news/like/${noticiaId}` });
-    if (data.status !== 'ok') return
+    if (data.status !== 'ok') toast.error('No se pudo hacer el like, por favor vuelva a intentar')
 
     const newsIndex = news.findIndex(n => n.id === noticiaId)
     news[newsIndex] = data.data
     setNews([...news])
   };
 
+  const filterButtonHandler = (option) => {
+    setFilter(option)
+  }
+
   const handleDislike = async (noticiaId) => {
     const { data } = await post({ url: `/news/dislike/${noticiaId}` });
-  
+    if (data.status !== 'ok') toast.error('No se pudo hacer el dislike, por favor vuelva a intentar')
+
+    const newsIndex = news.findIndex(n => n.id === noticiaId)
+    news[newsIndex] = data.data
+    setNews([...news])
   };
 
   const createPostHandler = ({ post }) => {
@@ -47,14 +54,24 @@ function Dashboard() {
 
   const handleDelete = async ({id}) => {
     const { data } = await destroy({url: `/news/${id}`})
-  
+    if (data.status !== 'ok') toast.error('No se pudo borrar la noticia, por favor vuelva a intentar')
+
+    const newsFiltered = news.filter(n => n.id !== id)
+    setNews(newsFiltered)
   }
 
   useEffect(() => {
     getNews();
+
+    // eslint-disable-next-line
   }, []);
 
-  const filteredNews = filter === 'all' ? news : news.filter(noticia => noticia.category === filter);
+  useEffect(() => {
+    console.log({filter})
+    const elems = filter === 'all' ? news : news.filter(noticia => noticia.theme === filter)
+
+    setFilteredNews(elems)
+  }, [filter, news])
 
   return (
     <Layout>
@@ -89,17 +106,7 @@ function Dashboard() {
           <div className="row justify-content-center">
         <div className="col-12">
           <div className="filter-buttons">
-            <button className={`filter-button ${filter === 'all' ? 'active' : ''}`} onClick={() => setFilter('all')}>Todas</button>
-            <button className={`filter-button ${filter === 'Sports' ? 'active' : ''}`} onClick={() => setFilter('Sports')}>Deportes</button>
-            <button className={`filter-button ${filter === 'Politics' ? 'active' : ''}`} onClick={() => setFilter('Politics')}>Política</button>
-            <button className={`filter-button ${filter === 'Economy' ? 'active' : ''}`} onClick={() => setFilter('Economy')}>Economia</button>
-            <button className={`filter-button ${filter === 'Education' ? 'active' : ''}`} onClick={() => setFilter('Education')}>Educacion</button>
-            <button className={`filter-button ${filter === 'Technology' ? 'active' : ''}`} onClick={() => setFilter('Technology')}>Tecnologia</button>
-            <button className={`filter-button ${filter === 'Culture' ? 'active' : ''}`} onClick={() => setFilter('Culture')}>Cultura</button>
-            <button className={`filter-button ${filter === 'Science' ? 'active' : ''}`} onClick={() => setFilter('Science')}>Ciencia</button>
-            <button className={`filter-button ${filter === 'Gaming' ? 'active' : ''}`} onClick={() => setFilter('Gaming')}>Juegos</button>
-            <button className={`filter-button ${filter === 'Medicine' ? 'active' : ''}`} onClick={() => setFilter('Medicine')}>Medicina</button> 
-            <button className={`filter-button ${filter === 'Society' ? 'active' : ''}`} onClick={() => setFilter('Society')}>Sociedad</button> 
+            {filterButtons.map(({id, name}) => <FilterButton key={id} filter={filter} option={name} setFilter={filterButtonHandler} />)}
           </div>
         </div>
       </div>
