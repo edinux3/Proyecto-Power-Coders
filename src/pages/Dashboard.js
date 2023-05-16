@@ -20,8 +20,8 @@ function Dashboard() {
   const [news, setNews] = useState([]);
   const [filter, setFilter] = useState("all");
   const [filteredNews, setFilteredNews] = useState([]);
-  const [isEditing, setIsEditing] = useState(false)
-  const [editId, setEditId] = useState()
+  const [isEditing, setIsEditing] = useState(false);
+  const [editId, setEditId] = useState();
 
   const getNews = async () => {
     const { data } = await get({ url: "/news" });
@@ -60,16 +60,16 @@ function Dashboard() {
   };
 
   const editPostHandler = ({ post }) => {
-    const postIndex = news.findIndex(n => n.id === post.id);
+    const postIndex = news.findIndex((n) => n.id === post.id);
     news[postIndex] = post;
 
     setNews([...news]);
   };
 
-  const handleEdit = ({id}) => {
-    setEditId(id)
-    setIsEditing(true)
-  }
+  const handleEdit = ({ id }) => {
+    setEditId(id);
+    setIsEditing(true);
+  };
 
   const handleDelete = async ({ id }) => {
     const { data } = await destroy({ url: `/news/${id}` });
@@ -154,7 +154,11 @@ function Dashboard() {
                 <PostNewsForm createPostHandler={createPostHandler} />
               )}
               {isAuthenticated && isEditing && (
-                <EditNewsForm key={editId} postId={editId} editPostHandler={editPostHandler} />
+                <EditNewsForm
+                  key={editId}
+                  postId={editId}
+                  editPostHandler={editPostHandler}
+                />
               )}
             </div>
           </div>
