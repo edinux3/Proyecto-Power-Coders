@@ -20,7 +20,7 @@ function Login() {
         if (!token) return
 
         const user = get({ url: '/profile' })
-        if (user) return navigate('/dashboard')
+        if (user) return navigate('/')
 
     }, [token])
 

@@ -13,12 +13,13 @@ function PostForm({ post = {}, handleFormSubmit }) {
   const handleThemeChange = ({ target }) => setTheme(target.value)
 
   const handleSubmit = (e) => {
+    e.preventDefault()
     const submitted = handleFormSubmit(e)
     if (!submitted) return
 
     setTitle('');
     setContent('');
-    setPhoto(null);
+    photo && setPhoto(null);
     setTheme('');
   }
 

@@ -2,9 +2,11 @@ import { useState } from "react";
 import { apiURL } from "../config";
 import useAuth from "../hooks/useAuth";
 
-function News({noticia, handleLike, handleDislike, handleDelete}) {
+function News({noticia, handleLike, handleDislike, handleDelete, handleEdit}) {
     const [expanded, setExpanded] = useState(false)
     const { isAuthenticated, user } = useAuth()
+
+    const isOwner = user.id === noticia.ownerId
 
     return <div key={noticia.id} className="news-item">
         <p>{noticia.theme}</p>
@@ -30,7 +32,8 @@ function News({noticia, handleLike, handleDislike, handleDelete}) {
             <div>
                 <button onClick={() => handleLike(noticia.id)}>Me gusta ({noticia.likes})</button>
                 <button onClick={() => handleDislike(noticia.id)}>No me gusta</button>
-                {user.id === noticia.ownerId && <button onClick={() => handleDelete({id: noticia.id})}>Borrar</button>}
+                {isOwner && <button onClick={() => handleEdit({id: noticia.id})}>Editar</button>}
+                {isOwner && <button onClick={() => handleDelete({id: noticia.id})}>Borrar</button>}
             </div>
         )}
     </div>

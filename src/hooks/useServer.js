@@ -6,7 +6,7 @@ function useServer() {
   const { token, setUser } = useAuth()
 
   const handleResponse = ({ data, loading, error }) => {
-    console.log(data)
+    // console.log(data)
 
     if (data.status === 'ok' && data?.data?.token) {
       setUser({token: data.data.token})
@@ -30,7 +30,7 @@ function useServer() {
   return {
     get: ({ url }) => httpService({ method: 'GET', url, token }).then(handleResponse),
     post: ({ url, body, hasImage }) => httpService({ method: 'POST', url, token, body, hasImage }).then(handleResponse),
-    put: ({ url, body}) => httpService({ method: 'PUT', url, token, body }).then(handleResponse),
+    patch: ({ url, body, hasImage }) => httpService({ method: 'PATCH', url, token, body, hasImage }).then(handleResponse),
     delete: ({ url }) => httpService({ method: 'DELETE', url, token })
   }
 }
