@@ -15,8 +15,13 @@ git clone https://github.com/edinux3/Proyecto-Power-Coders.git
 2.- Navegar al directorio del proyecto:
 cd Proyecto-Power-Coders
 
-3.- Instalar las dependencias:
-npm install
+Technologies used
+React
+React Router
+Axios
+Bootstrap
+Author
+This project was created by [Edison Cadenas / Werner Gutierrez / Frank Duplesiere ]  Proyecto-Power-Coders.
 
 4.- Iniciar la aplicación:
 npm start 🚀
