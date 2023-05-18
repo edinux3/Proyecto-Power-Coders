@@ -11,12 +11,12 @@ Instalación
 Clonar el repo
 git clone 
 
+  https://github.com/edinux3/Proyecto-Power-Coders.git
+  
+  
 Instalación
-cd ReportifyApp
 npm install
-npm run dev
-  
-  
+npm start
   
   
 Technologies used
