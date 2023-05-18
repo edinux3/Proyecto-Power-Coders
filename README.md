@@ -21,8 +21,9 @@ npm start
   
 Technologies used
 React
-React Router
+
 Bootstrap
+  
 Author
 This project was created by [Edison Cadenas / Werner Gutierrez / Frank Duplesiere ]  Proyecto-Power-Coders.
 
