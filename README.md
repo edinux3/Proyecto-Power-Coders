@@ -7,10 +7,21 @@ REACT_APP_API_URL=<your API URL>
 Running the application
 To run the application, use the npm start command. This will start the application on http://localhost:3000.
 
+Instalación
+Clonar el repo
+git clone 
+
+Instalación
+cd ReportifyApp
+npm install
+npm run dev
+  
+  
+  
+  
 Technologies used
 React
 React Router
-Axios
 Bootstrap
 Author
 This project was created by [Edison Cadenas / Werner Gutierrez / Frank Duplesiere ]  Proyecto-Power-Coders.
