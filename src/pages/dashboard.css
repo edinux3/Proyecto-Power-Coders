@@ -119,3 +119,46 @@ button:hover {
     margin: 5px 2.5px;
   }
 }
+
+.button {
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  color: #333;
+  cursor: pointer;
+  font-size: 14px;
+  padding: 8px 16px;
+  transition: all 0.2s ease;
+  display: inline-block;
+  margin-right: 10px;
+  font-weight: bold;
+  text-decoration: none;
+  text-align: center;
+}
+
+.button-blue {
+  background-color: black;
+  color: #fff;
+}
+
+.button-blue:hover {
+  background-color: orange;
+}
+
+.button-green {
+  background-color: black;
+  color: #fff;
+}
+
+.button-green:hover {
+  background-color: green;
+}
+
+.button-red {
+  background-color: black;
+  color: #fff;
+}
+
+.button-red:hover {
+  background-color: #c0392b;
+}

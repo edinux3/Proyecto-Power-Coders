@@ -103,28 +103,22 @@ function Dashboard() {
             <div className="container-fluid">
               <img src={logo} alt="News Reddit" className="navbar-logo" />
               <h3>News Reddit Pirate </h3>
-              <div className="d-flex">
-                <ul className="navbar-nav">
-                  <li className="nav-item">
-                    <p className="text-center">
+              <div>
+                <ul>
+                   <p>
                       {isAuthenticated ? (
                         <>
-                          <Link to="/" onClick={logout}>
-                            Cerrar Sesión
-                          </Link>
+                          <Link to="/" onClick={logout} className="button button-red">Cerrar Sesión</Link>
                         </>
                       ) : (
-                        <Link to="/login">Iniciar Sesión</Link>
+                        <Link to="/login" className="button button-blue">Iniciar Sesión</Link>
                       )}
                     </p>
-                  </li>
-                  <li className="nav-item">
-                    <p className="text-center">
+                   <p>
                       {!isAuthenticated && (
-                        <Link to="/register">Registrarse</Link>
+                        <Link  to="/register" className="button button-green">  Registrarse</Link>
                       )}
                     </p>
-                  </li>
                 </ul>
               </div>
             </div>
@@ -148,7 +142,7 @@ function Dashboard() {
               <nav className="navbar navbar-expand-lg navbar-light bg-light"></nav>
               <h2>
                 Hola {isAuthenticated ? <b>{user?.username}</b> : <b>...</b>}!!
-                en que estas pensando ahora....!!!{" "}
+                en que estas pensando ahora.!! tienes espacio suficiente para escribir.. 😁 {" "}
               </h2>
               {isAuthenticated && !isEditing && (
                 <PostNewsForm createPostHandler={createPostHandler} />
